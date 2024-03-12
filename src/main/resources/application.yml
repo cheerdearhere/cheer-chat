@@ -1,0 +1,20 @@
+#application
+spring:
+  application:
+    name: cheer-chat
+  #db specific properties
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cheer_db
+    username: root
+    password: root
+  #ORM s/w specific properties
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+#Server
+server:
+  port: 5454
+
