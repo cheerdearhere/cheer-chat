@@ -19,18 +19,18 @@ import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.util.List;
 
-public class JwtTokenValidator extends OncePerRequestFilter {
+public class JwtTokenValidator extends OncePerRequestFilter implements JwtConstant{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException
     {
-        String jwt = request.getHeader("Authorization");
+        String jwt = request.getHeader(JWT_HEADER);
         if(jwt!=null){
             try{
                 //Bearer token
                 jwt = jwt.substring(7);
 
-                SecretKey key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
+                SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
                 Claims claim = Jwts.parser().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
 
                 String username = String.valueOf(claim.get("username"));
