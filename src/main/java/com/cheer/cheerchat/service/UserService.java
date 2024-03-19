@@ -9,8 +9,8 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    public User findUserById(Long id);
-    public User findUserByProfile(String jwt);
+    public User findUserById(Integer id) throws UserException;
+    public User findUserByProfile(String jwt) throws UserException;
     public User updateUser(Long userid, UpdateUserRequest request) throws UserException;
     public List<User> searchUser(String query);
 }
