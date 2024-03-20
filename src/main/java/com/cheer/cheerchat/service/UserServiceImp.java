@@ -9,10 +9,12 @@ import com.cheer.cheerchat.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class UserServiceImp implements UserService {
     private final TokenProvider tokenProvider;
@@ -38,12 +40,19 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User updateUser(Long userid, UpdateUserRequest request) throws UserException {
-        return null;
+    public User updateUser(Integer userid, UpdateUserRequest request) throws UserException {
+        User user = findUserById(userid);
+        if(request.getFullName() != null)
+            user.setFullName(request.getFullName());
+        if(request.getProfilePicture() != null)
+            user.setProfilePhoto(request.getProfilePicture());
+
+        return userRepository.save(user);
     }
 
     @Override
     public List<User> searchUser(String query) {
-        return null;
+        List<User> users = userRepository.searchUser(query);
+        return users;
     }
 }

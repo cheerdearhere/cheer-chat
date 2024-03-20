@@ -5,7 +5,6 @@ public class UpdateUserRequest {
     private String profilePicture;
 
     public UpdateUserRequest(){
-
     }
 
     public String getFullName() {
