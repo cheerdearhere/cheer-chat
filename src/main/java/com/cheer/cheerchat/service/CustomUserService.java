@@ -1,4 +1,4 @@
-package com.cheer.cheerchat.request;
+package com.cheer.cheerchat.service;
 
 import com.cheer.cheerchat.entity.User;
 import com.cheer.cheerchat.repository.UserRepository;
