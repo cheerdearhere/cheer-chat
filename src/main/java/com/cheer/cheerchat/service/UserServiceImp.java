@@ -52,7 +52,6 @@ public class UserServiceImp implements UserService {
 
     @Override
     public List<User> searchUser(String query) {
-        List<User> users = userRepository.searchUser(query);
-        return users;
+        return userRepository.searchUser(query);
     }
 }

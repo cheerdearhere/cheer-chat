@@ -35,6 +35,7 @@ public class AuthController {
         String email = user.getEmail();
         String fullName = user.getFullName();
         String password = user.getPassword();
+        String salt = user.getSalt();
 
         User isUser = userRepository.findByEmail(email);
         if(isUser != null)
@@ -42,10 +43,10 @@ public class AuthController {
         User createdUser = User.builder()
                 .email(email)
                 .fullName(fullName)
-                .password(passwordEncoder.encode(password))
+                .password(passwordEncoder.encode(salt+password))
                 .build();
         userRepository.save(createdUser);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(email,password);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(email,salt+password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
@@ -71,9 +72,10 @@ public class AuthController {
 
     public Authentication authenticate(String username, String password) throws Exception{
         UserDetails userDetails = customUserService.loadUserByUsername(username);
+        String salt = username.toLowerCase().substring(username.indexOf('@')+1,username.indexOf('@'+4));
         if(userDetails == null)
             throw new UserException("invalid username: "+username);
-        if(!passwordEncoder.matches(password, userDetails.getPassword()))
+        if(!passwordEncoder.matches(salt+password, userDetails.getPassword()))
             throw new BadCredentialsException("invalid password or username");
         return new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
     }
