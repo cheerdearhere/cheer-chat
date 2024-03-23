@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -44,8 +46,11 @@ public class AuthController {
                 .email(email)
                 .fullName(fullName)
                 .password(passwordEncoder.encode(salt+password))
+                .regDate(LocalDateTime.now())
                 .build();
-        userRepository.save(createdUser);
+        User savedUser = userRepository.save(createdUser);
+        savedUser.setRegId(savedUser.getId());
+        userRepository.save(savedUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(email,salt+password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

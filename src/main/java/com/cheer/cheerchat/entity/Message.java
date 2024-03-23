@@ -18,7 +18,10 @@ public class Message {
     private Integer id;
     private String content;
 
-    private LocalDateTime timestamp;
+    private Integer regId;
+    private Integer modId;
+    private LocalDateTime regDate;
+    private LocalDateTime modDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="USER_ID")

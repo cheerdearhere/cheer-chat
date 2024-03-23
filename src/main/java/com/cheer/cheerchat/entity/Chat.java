@@ -3,6 +3,7 @@ package com.cheer.cheerchat.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +32,10 @@ public class Chat {
     private Set<User> chatUsers = new HashSet<>();
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
+    private Integer regId;
+    private Integer modId;
+    private LocalDateTime regDate;
+    private LocalDateTime modDate;
 
 
 }

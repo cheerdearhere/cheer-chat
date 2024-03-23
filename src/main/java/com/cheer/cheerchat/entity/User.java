@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import javax.swing.text.html.Option;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,9 +25,13 @@ public class User {
     private String profilePhoto;
     private String password;
     private String salt = (email == null || email.isEmpty() || email.equals(""))
-            ? "nodata"
+            ? "no_data"
             : email.toLowerCase().substring(email.indexOf('@')+1, email.indexOf('@')+4)
     ;
+    private Integer regId;
+    private Integer modId;
+    private LocalDateTime regDate;
+    private LocalDateTime modDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CHAT_ID")
