@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @RestControllerAdvice
-public class GlobleException {
+public class GlobalException {
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ErrorDetail> userExceptionHandler(UserException ue, WebRequest req){
         ErrorDetail err = new ErrorDetail(ue.getMessage(),req.getDescription(false),LocalDateTime.now());
@@ -25,6 +25,10 @@ public class GlobleException {
         return new ResponseEntity<>(err,HttpStatus.BAD_REQUEST);
     }
 
+    public ResponseEntity<ErrorDetail> chatExceptionHandler(ChatException ce, WebRequest req){
+        ErrorDetail err = new ErrorDetail(ce.getMessage(),req.getDescription(false),LocalDateTime.now());
+        return new ResponseEntity<>(err,HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDetail> methodArgumentNotValidException(MethodArgumentNotValidException ve){
         String methodValidationError = Objects.requireNonNull(ve.getBindingResult().getFieldError()).getDefaultMessage();
