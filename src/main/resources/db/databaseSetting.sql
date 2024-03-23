@@ -1,3 +1,3 @@
 -- set db agent
-create user 'cheer_chat'@'%' identified by '*23#root';
-grant all privileges on cheer_db.* to cheer_chat@'%';
+CREATE USER 'cheer_chat'@'%' IDENTIFIED BY '*23#root';
+GRANT ALL PRIVILEGES ON cheer_db.* TO cheer_chat@'%';
