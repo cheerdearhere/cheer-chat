@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,11 +48,17 @@ public class UserServiceImp implements UserService {
         if(request.getProfilePicture() != null)
             user.setProfilePhoto(request.getProfilePicture());
 
+        updateIdAndDate(userid,user);
         return userRepository.save(user);
     }
 
     @Override
     public List<User> searchUser(String query) {
         return userRepository.searchUser(query);
+    }
+
+    private void updateIdAndDate(Integer modifierId, User user){
+        user.setModId(modifierId);
+        user.setModDate(LocalDateTime.now());
     }
 }
