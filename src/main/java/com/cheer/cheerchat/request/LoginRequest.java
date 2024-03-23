@@ -1,4 +1,4 @@
-package com.cheer.cheerchat.repository;
+package com.cheer.cheerchat.request;
 
 import lombok.Getter;
 import lombok.Setter;
