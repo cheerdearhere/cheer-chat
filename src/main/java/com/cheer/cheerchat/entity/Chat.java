@@ -36,6 +36,6 @@ public class Chat {
     private Integer modId;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
-
+    private char useYn;
 
 }

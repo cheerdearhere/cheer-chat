@@ -29,6 +29,6 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="CHAT_ID")
     private Chat chat;
-
+    private char useYn;
 
 }

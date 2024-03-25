@@ -32,6 +32,7 @@ public class User {
     private Integer modId;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
+    private char useYn;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CHAT_ID")
