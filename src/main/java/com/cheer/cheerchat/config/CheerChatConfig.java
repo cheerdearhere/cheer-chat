@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
-public class CheerChatConfig {
+public class CheerChatConfig implements JwtConstant{
     @Bean
     public SecurityFilterChain securityFilterChain(final @NotNull HttpSecurity http) throws Exception{
         http.httpBasic(HttpBasicConfigurer::disable)
@@ -63,7 +63,7 @@ public class CheerChatConfig {
         cfg.setAllowedMethods(Collections.singletonList("*"));
         cfg.setAllowCredentials(true);
         cfg.setAllowedHeaders(Collections.singletonList("*"));
-        cfg.setExposedHeaders(Arrays.asList("Authorization"));
+        cfg.setExposedHeaders(Arrays.asList(JWT_HEADER));
         cfg.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**",cfg);

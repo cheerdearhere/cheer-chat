@@ -6,7 +6,7 @@ import com.cheer.cheerchat.exception.ChatException;
 import com.cheer.cheerchat.exception.UserException;
 import com.cheer.cheerchat.repository.ChatRepository;
 import com.cheer.cheerchat.repository.UserRepository;
-import com.cheer.cheerchat.request.GroupChatRequest;
+import com.cheer.cheerchat.request.ChatRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -92,23 +92,24 @@ public class ChatServiceImp implements ChatService{
         return chatRepository.save(chat);
     }
     @Override
-    public Chat renameGroup(Integer chatId, String groupName, Integer reqUserId) throws ChatException, UserException {
-        if(userRepository.findById(reqUserId).isEmpty())
-            throw new UserException("User not found by user Id: "+reqUserId);
+    public Chat updateGroupImgOrName(User reqUser, ChatRequest req) throws ChatException, UserException{
+        if(userRepository.findById(reqUser.getId()).isEmpty())
+            throw new UserException("User not found by user Id: "+reqUser.getId());
+        Integer chatId = req.getChat_id();
         Optional<Chat> chatOpt = chatRepository.findById(chatId);
-        if(chatOpt.isEmpty()) throw new ChatException("Chat not found by chat Id: "+chatId);
+        if(chatOpt.isEmpty())
+            throw new ChatException("Chat not found by chat Id: "+chatId);
 
         Chat chat = chatOpt.get();
-        if(Objects.equals(chat.getChatName(),groupName))
-            throw new ChatException("Same chat name: "+groupName);
-        else if(groupName==null)
-            throw new ChatException("group name is null");
-
-        chat.setChatName(groupName);
-        updateIdAndDate(reqUserId,chat);
-
+        if(req.getChat_image() != null)
+            updateGroupImg(chat,req.getChat_image());
+        if(req.getChat_name() != null)
+            renameGroup(chat,req.getChat_name());
+        updateIdAndDate(reqUser.getId(), chat);
         return chatRepository.save(chat);
     }
+
+    @Override
     public Chat updateGroupHost(Integer chatId, Integer newHostId, Integer reqUserId) throws ChatException, UserException{
         if(userRepository.findById(reqUserId).isEmpty()) throw new UserException("User not found by user Id: "+reqUserId);
         Optional<User> newHostOpt = userRepository.findById(newHostId);
@@ -126,19 +127,7 @@ public class ChatServiceImp implements ChatService{
         updateIdAndDate(reqUserId,chat);
         return chatRepository.save(chat);
     }
-    @Override
-    public Chat updateGroupImg(Integer chatId, User reqUser, GroupChatRequest req) throws ChatException, UserException {
-        if(userRepository.findById(reqUser.getId()).isEmpty()) throw new UserException("User not found by user Id: "+reqUser.getId());
-        Optional<Chat> chatOpt = chatRepository.findById(chatId);
-        if(chatOpt.isEmpty()) throw new ChatException("Chat not found by chat Id: "+chatId);
 
-        Chat chat = chatOpt.get();
-        if(req.getChat_image()==null) throw new ChatException("Image data is null");
-
-        chat.setChatImage(req.getChat_image());
-        updateIdAndDate(reqUser.getId(), chat);
-        return chatRepository.save(chat);
-    }
     @Override
     public Chat removeFromGroup(Integer chatId, Integer userId, Integer reqUserId) throws ChatException, UserException {
         Optional<User> reqUserOpt = userRepository.findById(reqUserId);
@@ -235,5 +224,17 @@ public class ChatServiceImp implements ChatService{
         chat.setModId(modifierId);
         chat.setModDate(LocalDateTime.now());
     }
-
+    private Chat renameGroup(Chat chat, String groupName) throws ChatException, UserException {
+        if(Objects.equals(chat.getChatName(),groupName))
+            throw new ChatException("Same chat name: "+groupName);
+        else if(groupName==null)
+            throw new ChatException("group name is null");
+        chat.setChatName(groupName);
+        return chat;
+    }
+    private Chat updateGroupImg(Chat chat, String req_img) throws ChatException, UserException {
+        if(req_img==null) throw new ChatException("Image data is null");
+        chat.setChatImage(req_img);
+        return chat;
+    }
 }

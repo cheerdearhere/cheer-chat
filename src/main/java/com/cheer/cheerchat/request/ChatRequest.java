@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter @Setter
-public class GroupChatRequest {
+public class ChatRequest {
     private Integer chat_id;
     private List<Integer> userIdList;
     private String chat_name;

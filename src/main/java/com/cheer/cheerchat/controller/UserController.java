@@ -5,7 +5,6 @@ import com.cheer.cheerchat.exception.UserException;
 import com.cheer.cheerchat.request.UpdateUserRequest;
 import com.cheer.cheerchat.response.ApiResponse;
 import com.cheer.cheerchat.service.UserService;
-import com.cheer.cheerchat.service.UserServiceImp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/profile")
-    public ResponseEntity<User> getUserProfileHandler(@RequestHeader("Authorization") String token) throws UserException {
+    public ResponseEntity<User> getUserProfileHandler(@RequestHeader() String token) throws UserException {
         User user = userService.findUserByProfile(token);
         return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
     }
@@ -34,7 +33,7 @@ public class UserController {
     @PutMapping("/update")
     public ResponseEntity<ApiResponse> updateUserHandler (
             @RequestBody UpdateUserRequest request,
-            @RequestHeader("Authorization") String token
+            @RequestHeader(ControllerConstant.AUTHENTICATION_HEADER_NAME) String token
     ) throws UserException {
 
         User user = userService.findUserByProfile(token);
