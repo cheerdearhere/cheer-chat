@@ -1,9 +1,11 @@
 package com.cheer.cheerchat.response;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
+@Getter @Setter
 public class ApiResponse {
 
     private String message;
