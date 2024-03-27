@@ -20,8 +20,8 @@ import java.util.Map;
 @RequestMapping("/api/chat")
 @RequiredArgsConstructor
 public class ChatController implements ControllerConstant{
-    private ChatService chatService;
-    private UserService userService;
+    private final ChatService chatService;
+    private final UserService userService;
 
     @GetMapping("/{chatId}")
     public ResponseEntity<Chat> findChatByIdHandler(
