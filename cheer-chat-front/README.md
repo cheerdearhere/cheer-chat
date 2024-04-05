@@ -1,0 +1,17 @@
+# Cheer chat front
+- framework
+  - React.js
+- paging 
+  - react-router-dom: `npm i react-router-dom`
+- atom 
+  - zustand: `npm install zustand`
+- thunk middlewre
+- styleSheet
+  - tailwind : `https://tailwindcss.com/docs/guides/create-react-app`
+  - custom to dist: `npx tailwindcss -i ./src/assets/styleSheet/tailwindcss.css -o ./dist/common.css`
+  - custom to dev: `npx tailwindcss -i ./src/assets/styleSheet/tailwindcss.css -o ./src/assets/styleSheet/common.css`
+  - autoprefixer: `npm i autoprefixer`
+  - postCss preset environment: `npm i postcss-preset-env` 
+- etc
+  - mui: `npm install @mui/material @emotion/react @emotion/styled`
+  - react-icons: `npm install react-icons`
