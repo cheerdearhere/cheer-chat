@@ -1,0 +1,10 @@
+body{
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", "Roboto Light", "Roboto Thin", "Fira Code", "Droid Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code{
+    font-family: "Source Code Pro", Consolas, "Courier New",monospace;
+}
