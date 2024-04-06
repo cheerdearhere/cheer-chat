@@ -15,3 +15,4 @@
 - etc
   - mui: `npm install @mui/material @emotion/react @emotion/styled`
   - react-icons: `npm install react-icons`
+  - images: `https://pixabay.com/ko`
