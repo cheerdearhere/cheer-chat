@@ -1,7 +1,32 @@
 import {TbCircleDashed} from "react-icons/tb";
 import {BiCommentDetail} from "react-icons/bi";
+import {AiOutlineSearch} from "react-icons/ai";
+import {BsFilter} from "react-icons/bs";
+
+import {dummyChatData, dummyUserProfile} from "../api/dummyData.js";
+import ChatCard from "../components/ChatCard.jsx";
+import {useEffect, useLayoutEffect, useState} from "react";
 
 const Home =()=>{
+    const [chatList, setChatList] = useState([]);
+    const [search, setSearch] = useState("");
+    const [filteredChats, setFilteredChats] = useState([]);
+
+    const{name, profile} = dummyUserProfile;
+
+    useLayoutEffect(() => {
+        setChatList(dummyChatData);
+    }, []);
+    useEffect(()=>{
+        setFilteredChats(() => {
+            if(search===""||search.trim()==="") return chatList;
+            else return chatList.filter(chat=>chat.name.includes(search));
+        });
+    },[chatList, search]);
+    const onSearchKeyword = e=>{
+        const query = e.target.value;
+        setSearch(query);
+    }
     return (
         <div className="relative">
             <div className='w-full py-14 bg-[#00a884]'></div>
@@ -10,25 +35,58 @@ const Home =()=>{
                     {/*left menu bar*/}
                     <div className="w-full">
                         <div className="flex justify-between items-center p-3">
+                            {/*account container*/}
                             <div className="flex items-center space-x-3">
-                                {/*account container*/}
                                 <img
                                     className="rounded-full w-10 h-10 cursor-pointer"
-                                    src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+                                    src={profile}
                                     alt="profile image"
                                 />
-                                <p>username</p>
+                                <p>{name}</p>
                             </div>
+                            {/*button container*/}
                             <div className="space-x-3 text-2xl flex">
-                                {/*button container*/}
                                 <TbCircleDashed/>
                                 <BiCommentDetail/>
                             </div>
                         </div>
+                        {/* search input bar */}
+                        <div className="relative flex justify-center items-center bg-white py-4 px-3">
+                            <input
+                                value={search}
+                                onChange={onSearchKeyword}
+                                className="border-none outline-none bg-slate-200 rounded-md w-[93%] pl-9 py-2"
+                                placeholder="search or start new chat"
+                                type="text"
+                            />
+                            <AiOutlineSearch className="left-6 top-7 absolute"/>
+                            <div>
+                                <BsFilter className="ml-4 text-3xl"/>
+                            </div>
+                        </div>
+                        {/* all user */}
+                        <div className="bg-white overflow-y-scroll h-[76.8vh] px-3">
+                            {/*{name, profile,message, timestamp,notice}*/}
+                            {filteredChats?.map(chat=>{
+                                return (
+                                    <div key={`chat${chat.id}`}>
+                                        <ChatCard
+                                            {...chat}
+                                        />
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    {/*  default page  */}
+                        <div>
+
+                        </div>
                     </div>
                 </div>
                 <div className="right">
-
+                    {/* default background */}
+                    <div className={"w-[70%] flex flex-col items-center justify-center"}>
+                     </div>
                 </div>
             </div>
         </div>
