@@ -3,7 +3,7 @@ import {BiCommentDetail} from "react-icons/bi";
 import {AiOutlineSearch} from "react-icons/ai";
 import {BsFilter} from "react-icons/bs";
 
-import {dummyChatData, dummyUserProfile} from "../api/dummyData.js";
+import {dummyChatData, dummyUserProfile, logoImg} from "../api/dummyData.js";
 import ChatCard from "../components/ChatCard.jsx";
 import {useEffect, useLayoutEffect, useState} from "react";
 
@@ -11,7 +11,7 @@ const Home =()=>{
     const [chatList, setChatList] = useState([]);
     const [search, setSearch] = useState("");
     const [filteredChats, setFilteredChats] = useState([]);
-
+    const [currentChat, setCurrentChat] = useState(null);
     const{name, profile} = dummyUserProfile;
 
     useLayoutEffect(() => {
@@ -27,6 +27,10 @@ const Home =()=>{
         const query = e.target.value;
         setSearch(query);
     }
+    const onSelectChatHandler=(chatId)=>{
+        // setCurrentChat(findChatById(chatId));
+        setCurrentChat(true);
+    }
     return (
         <div className="relative">
             <div className='w-full py-14 bg-[#00a884]'></div>
@@ -40,7 +44,7 @@ const Home =()=>{
                                 <img
                                     className="rounded-full w-10 h-10 cursor-pointer"
                                     src={profile}
-                                    alt="profile image"
+                                    alt="image_profile"
                                 />
                                 <p>{name}</p>
                             </div>
@@ -69,7 +73,12 @@ const Home =()=>{
                             {/*{name, profile,message, timestamp,notice}*/}
                             {filteredChats?.map(chat=>{
                                 return (
-                                    <div key={`chat${chat.id}`}>
+                                    <div
+                                        key={`chat${chat.id}`}
+                                        onClick={()=>{
+                                            onSelectChatHandler(chat.id);
+                                        }}
+                                    >
                                         <ChatCard
                                             {...chat}
                                         />
@@ -77,17 +86,33 @@ const Home =()=>{
                                 )
                             })}
                         </div>
-                    {/*  default page  */}
-                        <div>
-
-                        </div>
                     </div>
                 </div>
-                <div className="right">
-                    {/* default background */}
-                    <div className={"w-[70%] flex flex-col items-center justify-center"}>
-                     </div>
-                </div>
+                {
+                    currentChat ? (
+                        //chat
+                        <div>
+                            chat
+                        </div>
+                    ) : (
+                      //default
+                    <div className={"w-[70%] flex flex-col items-center justify-center h-full"}>
+                        <div className="max-w-[70%] text-center">
+                            <img
+                                className="max-w-[70%] max-h-[70%]"
+                                src={logoImg}
+                                alt="userImg"
+                            />
+                            <h1 className="text-4xl text-gray-600">Cheer App</h1>
+                            <p className="my-9">
+                                Send and receive message without keeping your phone online.
+                                Use ChatApp on Up to 4 Linked devices and 1 phone at the same time.
+                            </p>
+                        </div>
+                    </div>
+                    )
+                }
+
             </div>
         </div>
     );
