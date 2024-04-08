@@ -37,8 +37,10 @@ const dummyChatData=[
         timestamp: "2021-10-01",
         notice: 2,
     }
-]
+];
+const logoImg="https://cdn.pixabay.com/animation/2023/12/22/00/19/00-19-58-407_512.gif"
 export {
+    logoImg,
     dummyUserProfile,
     dummyChatData,
 }
