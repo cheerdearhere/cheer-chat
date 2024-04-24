@@ -39,8 +39,11 @@ const dummyChatData=[
     }
 ];
 const logoImg="https://cdn.pixabay.com/animation/2023/12/22/00/19/00-19-58-407_512.gif"
+const defaultInfo= "Send and receive message without keeping your phone online.\n"
+    + "Use ChatApp on Up to 4 Linked devices and 1 phone at the same time."
 export {
     logoImg,
+    defaultInfo,
     dummyUserProfile,
     dummyChatData,
 }
