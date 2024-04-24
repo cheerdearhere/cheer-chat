@@ -3,7 +3,7 @@ import {BiCommentDetail} from "react-icons/bi";
 import {AiOutlineSearch} from "react-icons/ai";
 import {BsFilter} from "react-icons/bs";
 
-import {dummyChatData, dummyUserProfile, logoImg} from "../api/dummyData.js";
+import {defaultInfo, dummyChatData, dummyUserProfile, logoImg} from "../api/dummyData.js";
 import ChatCard from "../components/ChatCard.jsx";
 import {useEffect, useLayoutEffect, useState} from "react";
 
@@ -12,7 +12,9 @@ const Home =()=>{
     const [search, setSearch] = useState("");
     const [filteredChats, setFilteredChats] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
-    const{name, profile} = dummyUserProfile;
+    const {name, profile} = dummyUserProfile;
+    const [chatInfo, setChatInfo] = useState(defaultInfo);
+
 
     useLayoutEffect(() => {
         setChatList(dummyChatData);
@@ -27,8 +29,8 @@ const Home =()=>{
         const query = e.target.value;
         setSearch(query);
     }
-    const onSelectChatHandler=(chatId)=>{
-        // setCurrentChat(findChatById(chatId));
+    const onSelectChatHandler = /*async*/ (chatId)=> {
+        // const selectedChatById = await getChatById(chatId);
         setCurrentChat(true);
     }
     return (
@@ -92,7 +94,10 @@ const Home =()=>{
                     currentChat ? (
                         //chat
                         <div>
-                            chat
+                            <div>
+                                chat
+                                {/*<img src={currentChat}/>*/}
+                            </div>
                         </div>
                     ) : (
                       //default
@@ -105,8 +110,7 @@ const Home =()=>{
                             />
                             <h1 className="text-4xl text-gray-600">Cheer App</h1>
                             <p className="my-9">
-                                Send and receive message without keeping your phone online.
-                                Use ChatApp on Up to 4 Linked devices and 1 phone at the same time.
+                                {defaultInfo}
                             </p>
                         </div>
                     </div>
