@@ -3,9 +3,10 @@ import {BiCommentDetail} from "react-icons/bi";
 import {AiOutlineSearch} from "react-icons/ai";
 import {BsFilter} from "react-icons/bs";
 
-import {defaultInfo, dummyChatData, dummyUserProfile, logoImg} from "../api/dummyData.js";
+import {defaultChatData, defaultInfo, dummyChatListData, dummyUserProfile, logoImg} from "../api/dummyData.js";
 import ChatCard from "../components/ChatCard.jsx";
 import {useEffect, useLayoutEffect, useState} from "react";
+import MessageBox from "../components/MessageBox.jsx";
 
 const Home =()=>{
     const [chatList, setChatList] = useState([]);
@@ -17,7 +18,7 @@ const Home =()=>{
 
 
     useLayoutEffect(() => {
-        setChatList(dummyChatData);
+        setChatList(dummyChatListData);
     }, []);
     useEffect(()=>{
         setFilteredChats(() => {
@@ -31,7 +32,7 @@ const Home =()=>{
     }
     const onSelectChatHandler = /*async*/ (chatId)=> {
         // const selectedChatById = await getChatById(chatId);
-        setCurrentChat(true);
+        setCurrentChat(defaultChatData);
     }
     return (
         <div className="relative">
@@ -92,12 +93,29 @@ const Home =()=>{
                 </div>
                 {
                     currentChat ? (
-                        //chat
+                        //message part
                         <div>
-                            <div>
-                                chat
-                                {/*<img src={currentChat}/>*/}
-                            </div>
+                            {currentChat?.messages
+                                ?  (
+                                    <div>
+                                        {currentChat.messages.map(m=>{
+                                            return (
+                                                <div key={`msg${m.messageId}`}>
+                                                    <MessageBox
+                                                        message={m}
+                                                        currentChat={currentChat}
+                                                    />
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                    )
+                                :   (
+                                    <div>
+                                        no chat data
+                                    </div>
+                                )
+                            }
                         </div>
                     ) : (
                       //default
@@ -116,7 +134,6 @@ const Home =()=>{
                     </div>
                     )
                 }
-
             </div>
         </div>
     );
